@@ -1,11 +1,38 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { contentfulClient } from "../lib/contentful";
+import type { Article } from "../lib/contentful";
+import Layout from "../layouts/Layout.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const entries = await contentfulClient.getEntries<Article>({
+	content_type: "article",
+});
+
+const posts = entries.items.map((item) => {
+	const { title, headerImage, slug, publicationDate } = item.fields;
+	return {
+		title,
+		headerImage,
+		slug,
+		publicationDate: new Date(publicationDate).toLocaleDateString(),
+	};
+});
+
+const title = "Lewton Bus";
+const description = "Back and ready to brawl.";
+
 ---
 
-<Layout>
-	<Welcome />
+<Layout pageTitle={title} pageDescription={description}>
+	<ul>
+		{
+			posts.map((post) => (
+				<li>
+					<a href={`/articles/${post.slug}/`}>
+						<h2>{post.title}</h2>
+					</a>
+					<time>{post.publicationDate}</time>
+				</li>
+			))
+		}
+	</ul>
 </Layout>

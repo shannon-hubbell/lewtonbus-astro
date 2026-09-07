@@ -1,3 +1,20 @@
+---
+interface Props {
+  frontmatter?: {
+    title?: string;
+    description?: string;
+  };
+  pageTitle?: string;
+  pageDescription?: string;
+}
+
+
+const { frontmatter } = Astro.props;
+
+const title = frontmatter?.title ?? Astro.props.pageTitle ?? "Shannon Ellery Hubbell";
+const description = frontmatter?.description ?? Astro.props.pageDescription ?? "I build things for the internet, I write, and I am more enthusiastic about paleontology than a non-paleontologist adult should be.";
+
+---
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,9 +23,12 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
 	</head>
 	<body>
+		<header>
+			<h1>{title}</h1>
+		</header>
 		<slot />
 	</body>
 </html>
