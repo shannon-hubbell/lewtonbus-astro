@@ -1,4 +1,8 @@
-# Astro Starter Kit: Basics
+# Lewton Bus
+
+This is the front end for the new (and hopefully improved) [Lewton Bus](https://lewtonbus.net). It deploys to Netlify and pulls content from Contentful.
+
+# Astro Basics
 
 ```sh
 npm create astro@latest -- --template basics
