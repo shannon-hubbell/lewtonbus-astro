@@ -5,6 +5,7 @@ export interface Article {
   contentTypeId: "article",
   fields: {
     title: EntryFieldTypes.Text,
+    authors?: EntryFieldTypes.Object;
     headerImage: EntryFieldTypes.Object,
     articleContent: EntryFieldTypes.RichText,
     publicationDate: EntryFieldTypes.Date,

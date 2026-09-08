@@ -8,11 +8,15 @@ const entries = await contentfulClient.getEntries<Article>({
 });
 
 const posts = entries.items.map((item) => {
-	const { title, headerImage, slug, publicationDate } = item.fields;
+	const { title, headerImage, slug, authors, publicationDate } = item.fields;
 	return {
 		title,
 		headerImage,
 		slug,
+		authors: authors as unknown as Array<{
+			name?: string;
+			fields?: { name?: string };
+		}> | undefined,
 		publicationDate: new Date(publicationDate).toLocaleDateString(),
 	};
 });
@@ -28,8 +32,10 @@ const description = "Back and ready to brawl.";
 			posts.map((post) => (
 				<li>
 					<a href={`/articles/${post.slug}/`}>
-						<h2>{post.title}</h2>
+						<h2>{post.title}</h2><br />
 					</a>
+					<p>{post.authors?.map((author) => author.name ?? author.fields?.name ?? "").join(", ") ?? ""}
+					</p>
 					<time>{post.publicationDate}</time>
 				</li>
 			))

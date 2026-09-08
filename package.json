@@ -18,5 +18,8 @@
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "cf-content-types-generator": "^2.16.1"
   }
 }
