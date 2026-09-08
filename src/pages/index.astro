@@ -8,37 +8,49 @@ const entries = await contentfulClient.getEntries<Article>({
 });
 
 const posts = entries.items.map((item) => {
-	const { title, headerImage, slug, authors, publicationDate } = item.fields;
+	const { title, headerImage, slug, authors, description, publicationDate } =
+		item.fields;
 	return {
 		title,
 		headerImage,
 		slug,
-		authors: authors as unknown as Array<{
-			name?: string;
-			fields?: { name?: string };
-		}> | undefined,
+		description,
+		authors: authors as unknown as
+			| Array<{
+					name?: string;
+					fields?: { name?: string };
+			  }>
+			| undefined,
 		publicationDate: new Date(publicationDate).toLocaleDateString(),
 	};
 });
 
 const title = "Lewton Bus";
 const description = "Back and ready to brawl.";
-
 ---
 
 <Layout pageTitle={title} pageDescription={description}>
-	<ul>
-		{
-			posts.map((post) => (
-				<li>
-					<a href={`/articles/${post.slug}/`}>
-						<h2>{post.title}</h2><br />
-					</a>
-					<p>{post.authors?.map((author) => author.name ?? author.fields?.name ?? "").join(", ") ?? ""}
-					</p>
-					<time>{post.publicationDate}</time>
-				</li>
-			))
-		}
-	</ul>
+	<section>
+		<article>
+			{
+				posts.map((post) => (
+						<a href={`/articles/${post.slug}/`}>
+							<h2>{post.title}</h2>
+						</a>
+						<p class="byline">
+							By:{" "}
+							{post.authors
+								?.map(
+									(author) =>
+										author.name ??
+										author.fields?.name ??
+										"",
+								)
+								.join(", ") ?? ""}
+						</p>
+						<p class="description">{post.description}</p>
+				))
+			}
+		</article>
+	</section>
 </Layout>

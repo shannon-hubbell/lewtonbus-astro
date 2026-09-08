@@ -1,7 +1,7 @@
 ---
 import { contentfulClient } from "../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-
+import Layout from "../../layouts/Layout.astro";
 import type { Article } from "../../lib/contentful";
 
 export async function getStaticPaths() {
@@ -21,16 +21,10 @@ export async function getStaticPaths() {
 }
 
 const { articleContent, title, date } = Astro.props;
-
 ---
 
-<html lang="en">
-  <head>
-    <title>{title}</title>
-  </head>
-  <body>
-    <h1>{title}</h1>
-    <time>{date}</time>
-    <article set:html={articleContent} />
-  </body>
-</html>
+<Layout>
+  <h1>{title}</h1>
+  <time>{date}</time>
+  <article set:html={articleContent} />
+</Layout>
