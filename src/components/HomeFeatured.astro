@@ -6,7 +6,8 @@ import { contentfulClient } from "../lib/contentful";
 const entries = await contentfulClient.getEntries<Article>({
 	content_type: "article",
 	"metadata.tags.sys.id[in]": ["featured"],
-    order: ["-sys.createdAt"]
+	order: ["-fields.publicationDate"],
+	limit: 2
 });
 
 const posts = entries.items.map((item) => {
@@ -23,7 +24,7 @@ const posts = entries.items.map((item) => {
 					fields?: { name?: string };
 			  }>
 			| undefined,
-		publicationDate: new Date(publicationDate).toLocaleDateString(),
+		publicationDate: new Date(publicationDate).toLocaleDateString()
 	};
 });
 

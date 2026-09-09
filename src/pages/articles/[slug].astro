@@ -15,15 +15,21 @@ export async function getStaticPaths() {
       title: item.fields.title,
       articleContent: documentToHtmlString(item.fields.articleContent),
       date: new Date(item.fields.publicationDate).toLocaleDateString(),
+      authors: item.fields.authors as unknown as
+			| Array<{
+					name?: string;
+					fields?: { name?: string };
+			  }>
+			| undefined,
     },
   }));
   return pages;
 }
 
-const { articleContent, title, date } = Astro.props;
+const { articleContent, title, date, authors } = Astro.props;
 ---
 
-<Layout pageTitle={title}>
+<Layout pageTitle={title} authors={authors}>
   <h1>{title}</h1>
   <time>{date}</time>
   <article set:html={articleContent} />
