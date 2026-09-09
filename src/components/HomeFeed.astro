@@ -76,6 +76,11 @@ const typedPosts = posts as Post[];
 		text-decoration: none;
 		margin-bottom: 1rem;
 		display: block;
+		transition: all .5s;
+		&:hover {
+			transform: scale(1.004);
+			box-shadow: 5px 5px 15px 4px rgba(0,0,0,0.17);
+		}
 		article {
 			display: grid;
 			grid-template-columns: 30% 2fr;
