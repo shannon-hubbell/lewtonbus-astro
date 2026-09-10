@@ -14,26 +14,84 @@ export async function getStaticPaths() {
     params: { slug: item.fields.slug },
     props: {
       title: item.fields.title,
-      articleContent: documentToHtmlString(item.fields.articleContent, richTextOptions),
+      description: item.fields.description,
+      headerImage: item.fields.headerImage as unknown as
+        | Array<{
+            name?: string;
+            fields?: { file?: { url?: string } };
+          }>
+        | undefined,
+      articleContent: documentToHtmlString(
+        item.fields.articleContent,
+        richTextOptions,
+      ),
       date: new Date(item.fields.publicationDate).toLocaleDateString(),
       authors: item.fields.authors as unknown as
-			| Array<{
-					name?: string;
-					fields?: { name?: string };
-			  }>
-			| undefined,
+        | Array<{
+            name?: string;
+            fields?: { name?: string };
+          }>
+        | undefined,
     },
   }));
   return pages;
 }
 
-const { articleContent, title, date, authors } = Astro.props;
-
-
+const { articleContent, title, description, date, authors, headerImage } =
+  Astro.props;
 ---
 
 <Layout pageTitle={title} authors={authors}>
-  <h1>{title}</h1>
-  <time>{date}</time>
-  <article set:html={articleContent} />
+  <div class="sidebar">
+    <div class="banner">
+      {
+        headerImage?.fields?.file?.url && (
+          <img src={headerImage.fields.file.url} alt={title} />
+        )
+      }
+    </div>
+  </div>
+  <div>
+    <article>
+      <header>
+        <h1>{title}</h1>
+        <h2>{description}</h2>
+      </header>
+      <div set:html={articleContent} />
+    </article>
+  </div>
+
+  <style>
+    .sidebar {
+      width: 38%;
+      float: left;
+      margin: 0 1rem 2rem 0;
+      .banner {
+        width: 100%;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        border: 5px solid var(--color-text);
+        img {
+          width: 100%;
+        }
+      }
+    }
+    article {
+      header {
+        h1 {
+          font-size: 3rem;
+          background: var(--color-text);
+          color: var(--color-background);
+          margin: 0;
+          font-weight: 400;
+        }
+        h2 {
+          margin: 0;
+          background: #fff;
+          padding: 1rem;
+          font-weight: 400;
+        }
+      }
+    }
+  </style>
 </Layout>
