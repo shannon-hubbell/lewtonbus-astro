@@ -1,6 +1,7 @@
 ---
 import { contentfulClient } from "../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import { richTextOptions } from "../../lib/richTextOptions";
 import Layout from "../../layouts/Layout.astro";
 import type { Article } from "../../lib/contentful";
 
@@ -13,7 +14,7 @@ export async function getStaticPaths() {
     params: { slug: item.fields.slug },
     props: {
       title: item.fields.title,
-      articleContent: documentToHtmlString(item.fields.articleContent),
+      articleContent: documentToHtmlString(item.fields.articleContent, richTextOptions),
       date: new Date(item.fields.publicationDate).toLocaleDateString(),
       authors: item.fields.authors as unknown as
 			| Array<{
@@ -27,6 +28,8 @@ export async function getStaticPaths() {
 }
 
 const { articleContent, title, date, authors } = Astro.props;
+
+
 ---
 
 <Layout pageTitle={title} authors={authors}>

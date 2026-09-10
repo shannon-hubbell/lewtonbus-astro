@@ -85,12 +85,18 @@ const typedPosts = posts as Post[];
 			display: grid;
 			grid-template-columns: 30% 2fr;
 			background: var(--color-highlight);
+			@media screen and (max-width: 700px) {
+				display: block;
+			}
 			.thumb {
 				height: 100%;
 				min-height: 150px;
 				background-color: #000;
 				overflow: hidden;
 				position: relative;
+				@media screen and (max-width: 700px) {
+					display: none;
+				}
 				img {
 					position: absolute;
 					left: 50%;

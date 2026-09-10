@@ -43,8 +43,15 @@ const description = "Back and ready to brawl.";
 	#home-wrapper {
 		display: flex;
 		justify-content: space-between;
+		flex-wrap: wrap;
 		section {
 			width: 49%;
+		}
+		@media screen and (max-width: 700px) {
+			flex-direction: column-reverse;
+			section {
+				width: auto;
+			}
 		}
 	}
 </style>
