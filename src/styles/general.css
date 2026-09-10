@@ -1,12 +1,13 @@
 html {
     font-family: "Lexend", sans-serif;
-    --color-background: #F2E5D7;
+    --color-background: #FFF;
     --color-text: #262322;
     --color-highlight: #63372C;
     --color-highsub: #C97D60;
     background: var(--color-background);
     color: var(--color-text);
     font-size: 16px;
+    text-wrap: pretty;
 }
 
 main {
