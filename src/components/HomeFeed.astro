@@ -1,7 +1,5 @@
 ---
-import { Image } from "astro:assets";
-
-const { posts } = Astro.props;
+const { posts, currentPage = 1, totalPages = 1 } = Astro.props;
 
 type Author = {
 	name?: string;
@@ -67,10 +65,30 @@ const typedPosts = posts as Post[];
 			</>
 		))
 	}
+
+	{totalPages > 1 && (
+	<nav class="pagination" aria-label="Post pages">
+		{currentPage > 1 && <a href={currentPage === 2 ? "/" : `/page/${currentPage - 1}/`}>Previous</a>}
+		<span>Page {currentPage} of {totalPages}</span>
+		{currentPage < totalPages && <a href={`/page/${currentPage + 1}/`}>Next</a>}
+	</nav>
+)}
 </section>
 
 <style>
 	#home-feed {
+	}
+	.pagination {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		margin: 1.5rem 0;
+		font-size: 0.9rem;
+		text-transform: uppercase;
+	}
+	.pagination span {
+		opacity: 0.6;
 	}
 	a {
 		text-decoration: none;

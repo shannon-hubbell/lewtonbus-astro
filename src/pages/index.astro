@@ -1,32 +1,14 @@
 ---
-import { contentfulClient } from "../lib/contentful";
-import type { Article } from "../lib/contentful";
+import { getHomePosts } from "../lib/homePosts";
 import Layout from "../layouts/Layout.astro";
 import HomeFeed from "../components/HomeFeed.astro";
 import HomeFeatured from "../components/HomeFeatured.astro";
 
-const entries = await contentfulClient.getEntries<Article>({
-	content_type: "article",
-	order: ["-fields.publicationDate"]
-});
-
-const posts = entries.items.map((item) => {
-	const { title, headerImage, slug, authors, description, publicationDate } =
-		item.fields;
-	return {
-		title,
-		headerImage,
-		slug,
-		description,
-		authors: authors as unknown as
-			| Array<{
-					name?: string;
-					fields?: { name?: string };
-			  }>
-			| undefined,
-		publicationDate: new Date(publicationDate).toLocaleDateString(),
-	};
-});
+const posts = await getHomePosts();
+const postsPerPage = 5;
+const totalPages = Math.max(1, Math.ceil(posts.length / postsPerPage));
+const currentPage = 1;
+const pagePosts = posts.slice(0, postsPerPage);
 
 const title = "Lewton Bus";
 const description = "Back and ready to brawl.";
@@ -34,7 +16,11 @@ const description = "Back and ready to brawl.";
 
 <Layout pageTitle={title} pageDescription={description}>
 	<div id="home-wrapper">
-		<HomeFeed posts={posts} />
+		<HomeFeed
+			posts={pagePosts}
+			currentPage={currentPage}
+			totalPages={totalPages}
+		/>
 		<HomeFeatured posts={posts} />
 	</div>
 </Layout>
