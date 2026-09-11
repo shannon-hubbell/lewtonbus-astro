@@ -12,9 +12,10 @@ const pagePosts = posts.slice(0, postsPerPage);
 
 const title = "Lewton Bus";
 const description = "Back and ready to brawl.";
+const bodytags = ["home"];
 ---
 
-<Layout pageTitle={title} pageDescription={description}>
+<Layout pageTitle={title} pageDescription={description} bodyTags={bodytags}>
 	<div id="home-wrapper">
 		<HomeFeed
 			posts={pagePosts}

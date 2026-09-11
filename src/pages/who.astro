@@ -12,9 +12,10 @@ const pagePosts = posts.slice(0, postsPerPage);
 
 const title = "Who is Lewton Bus";
 const description = "Back and ready to brawl.";
+const bodytags = ["who"];
 ---
 
-<Layout pageTitle={title} pageDescription={description}>
+<Layout pageTitle={title} pageDescription={description} bodyTags={bodytags}>
 	<div id="home-wrapper">
 		<section>
 			<header>
@@ -58,7 +59,6 @@ const description = "Back and ready to brawl.";
 			width: 49%;
 		}
 		@media screen and (max-width: 700px) {
-			flex-direction: column-reverse;
 			section {
 				width: auto;
 			}
